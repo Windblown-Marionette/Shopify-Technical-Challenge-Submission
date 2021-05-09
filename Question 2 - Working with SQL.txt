@@ -1,0 +1,60 @@
+Fall 2021 Data Science Intern Challenge
+5/9/2021
+Michael Joseph Holt
+
+
+
+a. How many orders were shipped by Speedy Express in total?
+
+----SQL Statement:
+SELECT COUNT(*) FROM [Orders]
+LEFT JOIN Shippers ON Orders.ShipperID = Shippers.ShipperID
+WHERE ShipperName = 'Speedy Express'
+;
+
+----Result:
+Number of Records: 1
+COUNT(*)
+54
+
+
+b. What is the last name of the employee with the most orders?
+
+----SQL Statement:
+SELECT LastName, COUNT(LastName) FROM [Orders]
+JOIN Employees ON Orders.EmployeeID = Employees.EmployeeID
+GROUP BY LastName
+ORDER BY COUNT(LastName) DESC
+LIMIT 1
+;
+
+----Result:
+Number of Records: 1
+LastName	COUNT(LastName)
+Peacock		40
+
+
+c. What product was ordered the most by customers in Germany?
+
+----SQL Statement:
+--What product was ordered the most by customers in Germany?
+SELECT Products.ProductName AS 'Product Name', COUNT(ProductName) AS 'Count Ordered'
+FROM [OrderDetails]
+
+-- Connecting to Customers.Country
+JOIN Orders ON OrderDetails.OrderID = Orders.OrderID
+JOIN Customers ON Orders.CustomerID = Customers.CustomerID
+
+--Connecting to Products.ProductName
+JOIN Products ON OrderDetails.ProductID = Products.ProductID
+
+WHERE Customers.Country = 'Germany'
+GROUP BY Products.ProductName
+ORDER BY COUNT(ProductName) DESC
+LIMIT 1
+;
+
+----Result:
+Number of Records: 1
+Product Name		Count Ordered
+Gorgonzola Telino	5
